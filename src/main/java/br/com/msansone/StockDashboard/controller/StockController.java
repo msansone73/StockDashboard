@@ -2,7 +2,7 @@ package br.com.msansone.StockDashboard.controller;
 
 import br.com.msansone.StockDashboard.model.Stock;
 import br.com.msansone.StockDashboard.service.StockService;
-import org.apache.coyote.Response;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

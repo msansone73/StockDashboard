@@ -1,5 +1,6 @@
 package br.com.msansone.StockDashboard.service;
 
+import br.com.msansone.StockDashboard.exception.ResourceNotFoundException;
 import br.com.msansone.StockDashboard.model.Provents;
 import br.com.msansone.StockDashboard.repository.ProventRepository;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,13 @@ public class ProventServiceImpl implements ProventService{
         return proventRepository.findAll();
     }
 
-    @Override
     public Provents getProventById(Long id) {
         return proventRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Provent not found with id: " + id));
     }
 
     @Override
     public List<Provents> getProventsByStockSymbol(String stockSymbol) {
-        return proventRepository.findAllByStockTick(stockSymbol);
+        return proventRepository.findAllByStock_Tick(stockSymbol);
     }
 }
