@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface ProventRepository extends JpaRepository<Provents,Long> {
 
-    List<Provents> findAllByStockTick(String ticker);
-
-    // get all provents for a specific stock, month and year from date
-//    List<Provents> findByTickerAndDateBetween(String ticker, String startDate, String endDate);
+    List<Provents> findAllByStock_Tick(String ticker);
 
 }
+

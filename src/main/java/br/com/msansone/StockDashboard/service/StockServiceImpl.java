@@ -1,5 +1,6 @@
 package br.com.msansone.StockDashboard.service;
 
+import br.com.msansone.StockDashboard.exception.ResourceNotFoundException;
 import br.com.msansone.StockDashboard.model.Stock;
 import br.com.msansone.StockDashboard.repository.StockRepository;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,6 @@ public class StockServiceImpl implements StockService{
     @Override
     public Stock getStockBySymbol(String stock) {
         return stockRepository.findById(stock)
-                .orElse(null); // Return null if stock not found
+                .orElseThrow(() -> new ResourceNotFoundException("Stock not found with symbol: " + stock));
     }
 }

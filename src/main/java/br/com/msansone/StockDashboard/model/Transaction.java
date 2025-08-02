@@ -20,7 +20,7 @@ public class Transaction {
     private LocalDate date; // Date in "dd/MM/yyyy" format
     private String movimentacao; // Transaction type (e.g., "Compra", "Venda")
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinColumn(name = "transaction_id")
+    @JoinColumn(name = "stock_tick")
     private Stock stock; // Product name (e.g., "PETR3")
     private BigDecimal untPrice; // Unit price of the stock
     private BigDecimal totalPrice; // Total price of the transaction
