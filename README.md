@@ -11,3 +11,9 @@ StockDashboard-datasource-pass: password do dataspurce
 exemplo de execução docker run:
 =================================
 docker run -p 8080:8080 --env STOCK_DATASOURCE_URL="jdbc:postgresql://server:5432/db" --env STOCK_DATASOURCE_PASSWORD="sua senha" stockdashboardimage
+
+
+Swagger 
+=======
+
+http://localhost:8080/swagger-ui.html 
