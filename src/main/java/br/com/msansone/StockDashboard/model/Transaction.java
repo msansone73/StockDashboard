@@ -3,11 +3,13 @@ package br.com.msansone.StockDashboard.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@EqualsAndHashCode(exclude = "id")
 @Entity
 @Data
 @AllArgsConstructor
