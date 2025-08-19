@@ -8,9 +8,9 @@ COPY target/*.jar app.jar
 EXPOSE 8080
 
 # Set environment variables
-ENV STOCK_DATASOURCE_URL=""
-ENV STOCK_DATASOURCE_PASSWORD=""
+ENV STOCK_DASHBOARD_DATASOURCE=""
+ENV STOCK_DASHBOARD_DATASOURCE_PASS=""
 
 
 # Run the jar file
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.datasource.url=${STOCK_DATASOURCE_URL}", "--spring.datasource.username=msansone", "--spring.datasource.password=${STOCK_DATASOURCE_PASSWORD}"]
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.datasource.url=${STOCK_DASHBOARD_DATASOURCE}", "--spring.datasource.username=msansone", "--spring.datasource.password=${STOCK_DASHBOARD_DATASOURCE_PASS}"]

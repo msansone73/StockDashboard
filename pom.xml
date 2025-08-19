@@ -106,6 +106,23 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.43.4</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>msansone/stock-dashboard:${project.version}</name>
+                            <build>
+                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
 		</plugins>
 	</build>
 
