@@ -3,15 +3,13 @@ package br.com.msansone.StockDashboard.controller;
 import br.com.msansone.StockDashboard.model.Provents;
 import br.com.msansone.StockDashboard.service.ProventService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/provent")
+@CrossOrigin(origins = {"https://msansone.com.br/", "http://localhost:4200/"}, allowedHeaders = "*")
 public class ProventController {
 
     private final ProventService proventService;
