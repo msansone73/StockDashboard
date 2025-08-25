@@ -12,4 +12,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
 
     List<Transaction> findAllByDateAndMovimentacaoAndStockTickAndUntPriceAndTotalPriceAndQuantityAndInstitutionName(LocalDate date, String movimentacao, String tick, BigDecimal untPrice, BigDecimal totalPrice, Long quantity, String institutionName);
+
+    List<Transaction> findAllByStockTick(String tick);
 }

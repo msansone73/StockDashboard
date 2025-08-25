@@ -1,6 +1,7 @@
 package br.com.msansone.StockDashboard.controller;
 
 import br.com.msansone.StockDashboard.model.Stock;
+import br.com.msansone.StockDashboard.model.StockDetailResponse;
 import br.com.msansone.StockDashboard.service.StockService;
 
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,12 @@ public class StockController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/detail/{ticker}")
+    public ResponseEntity<StockDetailResponse> getStockDetail(@PathVariable("ticker") String ticker) {
+        StockDetailResponse stockDetail = stockService.getStockDetail(ticker);
+        return ResponseEntity.ok(stockDetail);
     }
 
 }
