@@ -2,6 +2,7 @@ package br.com.msansone.StockDashboard.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +20,11 @@ public class FileUploadController {
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
+            // Valida e limpa o nome do arquivo para evitar Path Traversal
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
             // Caminho onde o arquivo será salvo
-            Path path = Paths.get("uploads/" + file.getOriginalFilename());
+            Path path = Paths.get("uploads/" + fileName);
             Files.createDirectories(path.getParent());
             Files.write(path, file.getBytes());
 

@@ -3,6 +3,7 @@ package br.com.msansone.StockDashboard.controller;
 import br.com.msansone.StockDashboard.model.Provents;
 import br.com.msansone.StockDashboard.model.Stock;
 import br.com.msansone.StockDashboard.service.ProventService;
+import br.com.msansone.StockDashboard.service.StockService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,11 @@ public class ProventControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+        @MockBean
     private ProventService proventService;
+
+    @MockBean
+    private StockService stockService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -35,8 +39,15 @@ public class ProventControllerTest {
     @Test
     public void testGetAllProvents() throws Exception {
         List<Provents> provents = new ArrayList<>();
-        provents.add(new Provents(1L, LocalDate.now(), "JCP", new Stock("PETR4", "Petrobras"), new BigDecimal("100.00"), 100L));
-        provents.add(new Provents(2L, LocalDate.now(), "DIVIDENDOS", new Stock("VALE3", "Vale"), new BigDecimal("200.00"), 200L));
+        Stock petr4 = new Stock();
+        petr4.setTick("PETR4");
+        petr4.setCompany("Petrobras");
+        provents.add(new Provents(1L, LocalDate.now(), "JCP", petr4, new BigDecimal("100.00"), 100L));
+
+        Stock vale3 = new Stock();
+        vale3.setTick("VALE3");
+        vale3.setCompany("Vale");
+        provents.add(new Provents(2L, LocalDate.now(), "DIVIDENDOS", vale3, new BigDecimal("200.00"), 200L));
 
         when(proventService.getAllProvents()).thenReturn(provents);
 
@@ -50,7 +61,10 @@ public class ProventControllerTest {
     @Test
     public void testGetProventsByStockSymbol() throws Exception {
         List<Provents> provents = new ArrayList<>();
-        provents.add(new Provents(1L, LocalDate.now(), "JCP", new Stock("PETR4", "Petrobras"), new BigDecimal("100.00"), 100L));
+        Stock petr4 = new Stock();
+        petr4.setTick("PETR4");
+        petr4.setCompany("Petrobras");
+        provents.add(new Provents(1L, LocalDate.now(), "JCP", petr4, new BigDecimal("100.00"), 100L));
 
         when(proventService.getProventsByStockSymbol("PETR4")).thenReturn(provents);
 

@@ -35,12 +35,20 @@ public class TransactionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
-        transaction.setId(id);
-        return ResponseEntity.ok(transactionService.saveTransaction(transaction));
+        Transaction existingTransaction = transactionService.getTransactionById(id);
+        existingTransaction.setDate(transaction.getDate());
+        existingTransaction.setStock(transaction.getStock());
+        existingTransaction.setQuantity(transaction.getQuantity());
+        existingTransaction.setUntPrice(transaction.getUntPrice());
+        existingTransaction.setTotalPrice(transaction.getTotalPrice());
+        existingTransaction.setMovimentacao(transaction.getMovimentacao());
+        existingTransaction.setInstitution(transaction.getInstitution());
+        return ResponseEntity.ok(transactionService.saveTransaction(existingTransaction));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+        transactionService.getTransactionById(id);
         transactionService.deleteTransaction(id);
         return ResponseEntity.noContent().build();
     }

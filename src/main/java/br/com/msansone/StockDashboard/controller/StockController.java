@@ -38,7 +38,11 @@ public class StockController {
     @GetMapping("/detail/{ticker}")
     public ResponseEntity<StockDetailResponse> getStockDetail(@PathVariable("ticker") String ticker) {
         StockDetailResponse stockDetail = stockService.getStockDetail(ticker);
-        return ResponseEntity.ok(stockDetail);
+        if (stockDetail != null) {
+            return ResponseEntity.ok(stockDetail);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
