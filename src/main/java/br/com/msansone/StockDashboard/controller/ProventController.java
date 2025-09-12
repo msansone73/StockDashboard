@@ -1,10 +1,14 @@
 package br.com.msansone.StockDashboard.controller;
 
 import br.com.msansone.StockDashboard.model.Provents;
+import br.com.msansone.StockDashboard.model.Receivable;
+import br.com.msansone.StockDashboard.model.Stock;
 import br.com.msansone.StockDashboard.service.ProventService;
+import br.com.msansone.StockDashboard.service.StockService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -13,9 +17,11 @@ import java.util.List;
 public class ProventController {
 
     private final ProventService proventService;
+    private final StockService stockService;
 
-    public ProventController(ProventService proventService) {
+    public ProventController(ProventService proventService, StockService stockService) {
         this.proventService = proventService;
+        this.stockService = stockService;
     }
 
     // Return all provents
@@ -35,4 +41,27 @@ public class ProventController {
         }
     }
 
+    // return all futures provents by stock
+    @GetMapping("/future/{stockSymbol}")
+    public ResponseEntity<Stock> getFuturesProventsByStockSymbol(@PathVariable("stockSymbol") String stockSymbol) {
+        Stock stock = proventService.getFuturesProventsByStockSymbol(stockSymbol.toUpperCase());
+
+        return ResponseEntity.ok(stock);
+    }
+
+
+    // return all futures provents by stock
+    @GetMapping("/future")
+    public ResponseEntity<List<Receivable>> getAllFuturesProvents() {
+
+        //List<Stock> stocks = stockService.getAllStocks();
+        //stocks.stream().forEach(s -> proventService.getFuturesProventsByStockSymbol(s.getTick()));
+
+        List<Receivable> receivables = proventService.getAllReceivableDate(LocalDate.now());
+
+
+        return ResponseEntity.ok(receivables.stream()
+                .sorted((p1, p2)->p1.getData().compareTo(p2.getData()))
+                .toList());
+    }
 }

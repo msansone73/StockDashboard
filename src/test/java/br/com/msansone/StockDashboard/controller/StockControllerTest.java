@@ -33,8 +33,15 @@ public class StockControllerTest {
     @Test
     public void testGetAllStocks() throws Exception {
         List<Stock> stocks = new ArrayList<>();
-        stocks.add(new Stock("PETR4", "Petrobras"));
-        stocks.add(new Stock("VALE3", "Vale"));
+        Stock petr4 = new Stock();
+        petr4.setTick("PETR4");
+        petr4.setCompany("Petrobras");
+        stocks.add(petr4);
+
+        Stock vale3 = new Stock();
+        vale3.setTick("VALE3");
+        vale3.setCompany("Vale");
+        stocks.add(vale3);
 
         when(stockService.getAllStocks()).thenReturn(stocks);
 
@@ -47,7 +54,9 @@ public class StockControllerTest {
 
     @Test
     public void testGetStockBySymbol() throws Exception {
-        Stock stock = new Stock("PETR4", "Petrobras");
+        Stock stock = new Stock();
+        stock.setTick("PETR4");
+        stock.setCompany("Petrobras");
 
         when(stockService.getStockBySymbol("PETR4")).thenReturn(stock);
 
