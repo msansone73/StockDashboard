@@ -43,10 +43,10 @@ public class ProventController {
 
     // return all futures provents by stock
     @GetMapping("/future/{stockSymbol}")
-    public ResponseEntity<Stock> getFuturesProventsByStockSymbol(@PathVariable("stockSymbol") String stockSymbol) {
-        Stock stock = proventService.getFuturesProventsByStockSymbol(stockSymbol.toUpperCase());
+    public ResponseEntity<List<Provents>> getFuturesProventsByStockSymbol(@PathVariable("stockSymbol") String stockSymbol) {
+        List<Provents> provents = proventService.getFuturesProventsByStockSymbol(stockSymbol.toUpperCase());
 
-        return ResponseEntity.ok(stock);
+        return ResponseEntity.ok(provents);
     }
 
 
@@ -54,14 +54,9 @@ public class ProventController {
     @GetMapping("/future")
     public ResponseEntity<List<Receivable>> getAllFuturesProvents() {
 
-        //List<Stock> stocks = stockService.getAllStocks();
-        //stocks.stream().forEach(s -> proventService.getFuturesProventsByStockSymbol(s.getTick()));
-
         List<Receivable> receivables = proventService.getAllReceivableDate(LocalDate.now());
 
 
-        return ResponseEntity.ok(receivables.stream()
-                .sorted((p1, p2)->p1.getData().compareTo(p2.getData()))
-                .toList());
+        return ResponseEntity.ok(receivables);
     }
 }

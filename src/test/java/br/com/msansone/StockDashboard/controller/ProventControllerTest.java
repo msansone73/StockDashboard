@@ -3,6 +3,7 @@ package br.com.msansone.StockDashboard.controller;
 import br.com.msansone.StockDashboard.model.Provents;
 import br.com.msansone.StockDashboard.model.Stock;
 import br.com.msansone.StockDashboard.service.ProventService;
+import br.com.msansone.StockDashboard.service.StockService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

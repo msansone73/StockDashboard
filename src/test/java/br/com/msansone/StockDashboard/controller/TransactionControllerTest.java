@@ -4,6 +4,7 @@ import br.com.msansone.StockDashboard.model.Institution;
 import br.com.msansone.StockDashboard.model.Stock;
 import br.com.msansone.StockDashboard.model.Transaction;
 import br.com.msansone.StockDashboard.service.TransactionService;
+import br.com.msansone.StockDashboard.exception.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,8 +95,10 @@ public class TransactionControllerTest {
         Stock petr4 = new Stock();
         petr4.setTick("PETR4");
         petr4.setCompany("Petrobras");
+        Transaction existingTransaction = new Transaction(1L, LocalDate.now(), "Compra", petr4, new BigDecimal("28.00"), new BigDecimal("2800.00"), 100L, new Institution(1L, "XP Investimentos"));
         Transaction transaction = new Transaction(1L, LocalDate.now(), "Compra", petr4, new BigDecimal("29.00"), new BigDecimal("2900.00"), 100L, new Institution(1L, "XP Investimentos"));
 
+        when(transactionService.getTransactionById(1L)).thenReturn(existingTransaction);
         when(transactionService.saveTransaction(any(Transaction.class))).thenReturn(transaction);
 
         mockMvc.perform(put("/api/transaction/1")
@@ -112,5 +115,20 @@ public class TransactionControllerTest {
 
         mockMvc.perform(delete("/api/transaction/1"))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testUpdateTransaction_NotFound() throws Exception {
+        Stock petr4 = new Stock();
+        petr4.setTick("PETR4");
+        petr4.setCompany("Petrobras");
+        Transaction transaction = new Transaction(1L, LocalDate.now(), "Compra", petr4, new BigDecimal("29.00"), new BigDecimal("2900.00"), 100L, new Institution(1L, "XP Investimentos"));
+
+        when(transactionService.getTransactionById(1L)).thenThrow(new ResourceNotFoundException("Transaction not found with id: 1"));
+
+        mockMvc.perform(put("/api/transaction/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(transaction)))
+                .andExpect(status().isNotFound());
     }
 }

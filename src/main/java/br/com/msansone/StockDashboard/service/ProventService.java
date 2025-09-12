@@ -13,7 +13,7 @@ public interface ProventService {
     
     List<Provents> getProventsByStockSymbol(String stockSymbol);
 
-    Stock getFuturesProventsByStockSymbol(String stockSymbol);
+    List<Provents> getFuturesProventsByStockSymbol(String stockSymbol);
 
     List<Receivable> getAllReceivableByStockAndDate(String stockSymbol, LocalDate date);
 

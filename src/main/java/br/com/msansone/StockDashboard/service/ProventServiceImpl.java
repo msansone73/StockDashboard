@@ -54,7 +54,7 @@ public class ProventServiceImpl implements ProventService{
 
     @Override
     @Transactional
-    public Stock getFuturesProventsByStockSymbol(String stockSymbol) {
+    public List<Provents> getFuturesProventsByStockSymbol(String stockSymbol) {
         logger.info("getFuturesProventsByStockSymbol -> "+stockSymbol);
         Stock stockLido = stockRepository.findByTick(stockSymbol);
         if (stockLido==null){
@@ -67,7 +67,7 @@ public class ProventServiceImpl implements ProventService{
             logger.info("getFuturesProventsByStockSymbol -> "+stockSymbol+" - found - not using cache, go search");
             Stock stock = stockResearchI10.getStockInfo("acoes", stockSymbol);
             if (stock==null){
-                return null;
+                return new ArrayList<>();
             }
             stockLido.setPl(stock.getPl());
             stockLido.setDividendYield(stock.getDividendYield());
@@ -81,13 +81,13 @@ public class ProventServiceImpl implements ProventService{
                 dividendRepository.saveAll(stock.getDividends());
             }
             stock.setDividends(stockLido.getDividends().stream().filter(d -> d.getDatePag().isAfter(LocalDate.now())).toList());
-            return stock;
+            return stock.getDividends().stream().map(d -> new Provents(null, d.getDatePag(), d.getType(), stockLido, d.getValor(), null)).collect(Collectors.toList());
         }
         logger.info("getFuturesProventsByStockSymbol -> "+stockSymbol+" - found - using cache");
         List<Dividend> dividendos = dividendRepository.findAllByStock(stockSymbol);
         stockLido.setDividends(dividendos.stream().
                 filter(d-> d.getDatePag().isAfter(LocalDate.now())).toList());
-        return stockLido;
+        return stockLido.getDividends().stream().map(d -> new Provents(null, d.getDatePag(), d.getType(), stockLido, d.getValor(), null)).collect(Collectors.toList());
     }
 
     @Override
@@ -129,6 +129,6 @@ public class ProventServiceImpl implements ProventService{
         }
 
 
-        return receivables;
+        return receivables.stream().sorted((r1, r2) -> r1.getData().compareTo(r2.getData())).collect(Collectors.toList());
     }
 }
