@@ -35,7 +35,8 @@ public class ProventController {
     public ResponseEntity<List<Provents>> getProventsByStockSymbol(@PathVariable("stockSymbol") String stockSymbol) {
         List<Provents> provents = proventService.getProventsByStockSymbol(stockSymbol);
         if (provents != null && !provents.isEmpty()) {
-            return ResponseEntity.ok(provents);
+            List<Provents> proventsSorted = provents.stream().sorted((t1, t2) ->  t1.getDate().compareTo(t2.getDate())).toList();
+            return ResponseEntity.ok(proventsSorted);
         } else {
             return ResponseEntity.notFound().build();
         }
