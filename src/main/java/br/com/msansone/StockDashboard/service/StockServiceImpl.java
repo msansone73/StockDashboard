@@ -40,8 +40,8 @@ public class StockServiceImpl implements StockService{
     @Override
     public StockDetailResponse getStockDetail(String ticker) {
         Stock stock = getStockBySymbol(ticker);
-        List<Transaction> transactions = transactionRepository.findAllByStockTick(ticker);
-        List<br.com.msansone.StockDashboard.model.Provents> provents = proventRepository.findAllByStock_Tick(ticker);
+        List<Transaction> transactions = transactionRepository.findAllByStockTick(ticker).stream().sorted((t1, t2) ->  t2.getDate().compareTo(t1.getDate())).toList();
+        List<br.com.msansone.StockDashboard.model.Provents> provents = proventRepository.findAllByStock_Tick(ticker).stream().sorted((t1, t2) ->  t2.getDate().compareTo(t1.getDate())).toList();
 
         StockDetailResponse response = new StockDetailResponse();
         response.setTicker(stock.getTick());
